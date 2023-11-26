@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
@@ -84,10 +84,11 @@ if __name__ == '__main__':
         score = 0
         done = False
         obs = env.reset()
+        obs = obs[0]
 
         while not done:
             action = agent.choose_action(obs)
-            obs_, reward, done, info = env.step(action)
+            obs_, reward, done, info, _ = env.step(action)
             score += reward
             agent.learn(obs, action, reward, obs_)
             obs = obs_
