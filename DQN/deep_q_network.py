@@ -9,7 +9,7 @@ class DeepQNetwork(nn.Module):
     def __init__(self, lr, n_actions, name, input_dims, chkpt_dir):
         super(DeepQNetwork, self).__init__()
         self.checkpoint_dir = chkpt_dir
-        self.checkpoint_file = os.path.join(self.checkpoint_dir, name)
+        self.checkpoint_file = os.path.join(os.getcwd(),self.checkpoint_dir, name)
 
         self.conv1 = nn.Conv2d(input_dims[0], 32, 8, stride=4)
         self.conv2 = nn.Conv2d(32, 64, 4, stride=2)
@@ -47,6 +47,7 @@ class DeepQNetwork(nn.Module):
 
     def save_checkpoint(self):
         print('... saving checkpoint ...')
+        print(self.checkpoint_file)
         T.save(self.state_dict(), self.checkpoint_file)
 
     def load_checkpoint(self):

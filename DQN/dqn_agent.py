@@ -36,7 +36,7 @@ class DQNAgent(object):
 
     def choose_action(self, observation):
         if np.random.random() > self.epsilon:
-            state = T.tensor([observation],dtype=T.float).to(self.q_eval.device)
+            state = T.tensor(observation[np.newaxis,:],dtype=T.float, device=self.q_eval.device)
             actions = self.q_eval.forward(state)
             action = T.argmax(actions).item()
         else:

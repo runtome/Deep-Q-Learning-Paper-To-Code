@@ -37,7 +37,7 @@ if __name__ == '__main__':
     parser.add_argument('-gpu', type=str, default='0', help='GPU: 0 or 1')
     parser.add_argument('-load_checkpoint', type=bool, default=False,
                         help='load model checkpoint')
-    parser.add_argument('-path', type=str, default='models/',
+    parser.add_argument('-path', type=str, default='models',
                         help='path for model saving/loading')
     parser.add_argument('-algo', type=str, default='DQNAgent',
                     help='DQNAgent/DDQNAgent/DuelingDQNAgent/DuelingDDQNAgent')

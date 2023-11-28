@@ -15,7 +15,7 @@ if __name__ == '__main__':
                      input_dims=(env.observation_space.shape),
                      n_actions=env.action_space.n, mem_size=50000, eps_min=0.1,
                      batch_size=32, replace=1000, eps_dec=1e-5,
-                     chkpt_dir='models/', algo='DQNAgent',
+                     chkpt_dir='models', algo='DQNAgent',
                      env_name='PongNoFrameskip-v4')
 
     if load_checkpoint:
@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     fname = agent.algo + '_' + agent.env_name + '_lr' + str(agent.lr) +'_' \
             + str(n_games) + 'games'
-    figure_file = 'plots/' + fname + '.png'
+    figure_file = 'plots' + fname + '.png'
     # if you want to record video of your agent playing, do a mkdir tmp && mkdir tmp/dqn-video
     # and uncomment the following 2 lines.
     #env = wrappers.Monitor(env, "tmp/dqn-video",
@@ -32,18 +32,18 @@ if __name__ == '__main__':
     scores, eps_history, steps_array = [], [], []
 
     for i in range(n_games):
-        done = False
-        observation = env.reset()
+        done , trunc = False,False
+        observation , info = env.reset()
 
         score = 0
-        while not done:
+        while not (done or trunc):
             action = agent.choose_action(observation)
-            observation_, reward, done, info = env.step(action)
+            observation_, reward, done, trunc, info = env.step(action)
             score += reward
-
+            terminal = done or trunc
             if not load_checkpoint:
                 agent.store_transition(observation, action,
-                                     reward, observation_, done)
+                                     reward, observation_, terminal)
                 agent.learn()
             observation = observation_
             n_steps += 1
